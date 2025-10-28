@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://chtfcowufaejo"]
+
+[ext_resource type="Script" uid="uid://ddlku15trgadf" path="res://scripts/world.gd" id="1_nnsk1"]
+
+[node name="world" type="Node2D"]
+script = ExtResource("1_nnsk1")
+size = Vector2(10, 10)
+grid_offset = Vector2(50, 50)
