@@ -4,6 +4,8 @@ extends Area2D
 @onready var main_manager = $".."
 @onready var label = $"../HealthLabel"
 
+# 25-10-29: Take a mouse click event on the tile and act accordingly
+# 	25-10-29: That would be making the parent tile taking damage
 func _input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		# Decrease health when clicked, capture the tile if health is low

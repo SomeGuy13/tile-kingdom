@@ -8,6 +8,7 @@ var has_won = false
 var has_lost = false
 
 func _process(delta: float) -> void:
+	# 25-10-29: Display win and loose text depending on the conditions
 	if has_won == true:
 		win_text.visible = true
 	

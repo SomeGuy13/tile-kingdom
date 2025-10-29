@@ -16,6 +16,7 @@ var tiles_to_capture = size.x * size.y
 func _ready() -> void:
 	create_tiles()
 
+# 25-10-29: Creates the tiles and places them in the world
 func create_tiles() -> void:
 	for x in range(size.x):
 		tiles.append([])
@@ -37,9 +38,9 @@ func create_tiles() -> void:
 	
 	tiles_to_capture = size.x * size.y
 
+# 25-10-29: Gets the neighbors to a specific cordinate in the world grid
 func get_neighbors(x: int, y: int) -> Array:
 	var neighbors = []
-	
 	for dx in [-1, 0, 1]:
 		for dy in [-1, 0, 1]:
 			if dx == 0 and dy == 0:
@@ -48,5 +49,4 @@ func get_neighbors(x: int, y: int) -> Array:
 			var ny = y + dy
 			if nx >= 0 and nx < size.x and ny >= 0 and ny < size.y:
 				neighbors.append(tiles[nx][ny])
-	
 	return neighbors

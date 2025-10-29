@@ -7,29 +7,31 @@ extends Node2D
 var max_health = 3
 
 var captured = false
-var tile_position: Vector2
+var tile_owner = "neutral"
+var untouched = true
 
 var neighbor_tiles: Array = []
 var neighbors_captured = 0
 
+var tile_position: Vector2
+
 var damage_timer = 0.0
 var damage_interval = 10
-
 var decay_timer = 0.0
 var decay_interval = 2
-
-var untouched = true
 
 func _ready() -> void:
 	label.text = str(health)
 
 func _process(delta: float) -> void:
+	# 25-10-29: Deals with tiles that have not been captured
 	damage_timer += delta
 	if damage_timer >= damage_interval:
 		if total_neighbors_captured() >= 2 and captured == false and untouched == true:
 			take_damage(total_neighbors_captured())
 		damage_timer = 0.0
 	
+	# 25-10-29: Deals with captured tiles and potential decay
 	decay_timer += delta
 	if decay_timer >= decay_interval:
 		if health < max_health && total_neighbors_touched() >= 8:
@@ -50,6 +52,7 @@ func _process(delta: float) -> void:
 func set_neighbors():
 	neighbor_tiles = get_parent().get_neighbors(tile_position.x, tile_position.y)
 
+# 25-10-29: Handles taking damage accordingly
 func take_damage(damage: int):
 	if health >= 0 and captured == false:
 		health -= damage
@@ -67,6 +70,7 @@ func take_damage(damage: int):
 		health = 1
 		decapture()
 
+# 25-10-29: Handles a tile being captured
 func capture():
 	captured = true
 	get_parent().tiles_captured += 1
@@ -74,6 +78,7 @@ func capture():
 	untouched = false
 	label.visible = false
 
+# 25-10-29: Handles a tile becoming uncaptured
 func decapture():
 	captured = false
 	get_parent().tiles_captured -= 1
@@ -81,13 +86,15 @@ func decapture():
 	label.text = str(health)
 	label.visible = true
 
+# 25-10-29: Gets the total ammount of neighbors that have been captured
 func total_neighbors_captured() -> int:
 	var total = 0
 	for tile in neighbor_tiles:
 		if tile.captured == true:
 			total += 1
 	return total
-
+	
+# 25-10-29: Gets the total ammount of neighbors that have been touched
 func total_neighbors_touched() -> int:
 	var total = 0
 	for tile in neighbor_tiles:
