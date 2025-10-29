@@ -8,7 +8,6 @@ var max_health = 3
 
 var captured = false
 var tile_owner = "neutral"
-var untouched = true
 
 var neighbor_tiles: Array = []
 var neighbors_captured = 0
@@ -16,7 +15,7 @@ var neighbors_captured = 0
 var tile_position: Vector2
 
 var damage_timer = 0.0
-var damage_interval = 10
+var damage_interval = 0.25
 var decay_timer = 0.0
 var decay_interval = 2
 
@@ -24,36 +23,16 @@ func _ready() -> void:
 	label.text = str(health)
 
 func _process(delta: float) -> void:
-	# 25-10-29: Deals with tiles that have not been captured
 	damage_timer += delta
 	if damage_timer >= damage_interval:
-		if total_neighbors_captured() >= 2 and captured == false and untouched == true:
-			take_damage(total_neighbors_captured())
+		attack_neighbor()
 		damage_timer = 0.0
-	
-	# 25-10-29: Deals with captured tiles and potential decay
-	decay_timer += delta
-	if decay_timer >= decay_interval:
-		if health < max_health && total_neighbors_touched() >= 8:
-			var chance = randi_range(0, 100000)
-			if chance >= 99999 - total_neighbors_touched() * 250:
-				take_damage(-1)
-				if total_neighbors_touched() >= 1 and captured == true and untouched == false:
-					take_damage(-1)
-		if health < roundi(max_health / 2) and captured == false and untouched == false:
-			take_damage(-1)
-			var neighbor = randi_range(0, neighbor_tiles.size() - 1)
-			var chance = randi_range(0, 1000)
-			print(chance)
-			if chance >= 800:
-				neighbor_tiles[neighbor].take_damage(-1)
-		decay_timer = 0.0
 
 func set_neighbors():
 	neighbor_tiles = get_parent().get_neighbors(tile_position.x, tile_position.y)
 
 # 25-10-29: Handles taking damage accordingly
-func take_damage(damage: int):
+func take_damage(damage: int, attacker: String):
 	if health >= 0 and captured == false:
 		health -= damage
 		label.text = str(health)
@@ -65,24 +44,39 @@ func take_damage(damage: int):
 		# square.color = Color.from_hsv(0 + (health * 0.1), 1, 1)
 	
 	if health <= 0 and captured == false:
-		capture()
+		capture(attacker)
 	elif health > 0 and captured == true:
 		health = 1
-		decapture()
+		decapture("neutral")
 
 # 25-10-29: Handles a tile being captured
-func capture():
+# 25-10-29: Tiles are captured by an attacker doing damage to them
+func capture(attacker: String):
 	captured = true
-	get_parent().tiles_captured += 1
-	square.color = Color.NAVY_BLUE
-	untouched = false
 	label.visible = false
+	
+	match attacker:
+		"player":
+			get_parent().tiles_captured += 1
+			square.color = Color.NAVY_BLUE
+			tile_owner = "player"
+		"corruption":
+			square.color = Color.WEB_PURPLE
+			if tile_owner == "player":
+				get_parent().tiles_captured -=1
+			tile_owner = "corruption"
+		"red":
+			square.color = Color.FIREBRICK
+			tile_owner = "red"
+	
 
 # 25-10-29: Handles a tile becoming uncaptured
-func decapture():
+# 25-10-29: Tiles become uncaptured due to decay
+func decapture(attacker: String):
 	captured = false
-	get_parent().tiles_captured -= 1
-	square.color = Color.ORANGE_RED
+	if tile_owner == "player":
+		get_parent().tiles_captured -= 1
+	square.color = Color.WHITE
 	label.text = str(health)
 	label.visible = true
 
@@ -101,3 +95,33 @@ func total_neighbors_touched() -> int:
 		if tile.untouched == false:
 			total += 1
 	return total
+
+# 25-10-29: Attack a neighbor tile
+func attack_neighbor():
+	if captured == true:
+		neighbor_tiles[randi_range(0, neighbor_tiles.size() - 1)].take_damage(1, tile_owner)
+
+	## 25-10-29: Deals with tiles that have not been captured
+	#damage_timer += delta
+	#if damage_timer >= damage_interval:
+		#if total_neighbors_captured() >= 2 and captured == false and untouched == true:
+			#take_damage(total_neighbors_captured())
+		#damage_timer = 0.0
+	#
+	## 25-10-29: Deals with captured tiles and potential decay
+	#decay_timer += delta
+	#if decay_timer >= decay_interval:
+		#if health < max_health && total_neighbors_touched() >= 8:
+			#var chance = randi_range(0, 100000)
+			#if chance >= 99999 - total_neighbors_touched() * 250:
+				#take_damage(-1)
+				#if total_neighbors_touched() >= 1 and captured == true and untouched == false:
+					#take_damage(-1)
+		#if health < roundi(max_health / 2) and captured == false and untouched == false:
+			#take_damage(-1)
+			#var neighbor = randi_range(0, neighbor_tiles.size() - 1)
+			#var chance = randi_range(0, 1000)
+			#print(chance)
+			#if chance >= 800:
+				#neighbor_tiles[neighbor].take_damage(-1)
+		#decay_timer = 0.0
