@@ -4,5 +4,5 @@
 
 [node name="world" type="Node2D"]
 script = ExtResource("1_nnsk1")
-size = Vector2(10, 10)
+size = Vector2(50, 25)
 grid_offset = Vector2(50, 50)
