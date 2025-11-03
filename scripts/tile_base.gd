@@ -17,43 +17,54 @@ var tile_position: Vector2
 var damage_timer = 0.0
 var damage_interval = 0.25
 var decay_timer = 0.0
-var decay_interval = 2
+var decay_interval = 0.25
 
 func _ready() -> void:
 	label.text = str(health)
 
 func _process(delta: float) -> void:
-	damage_timer += delta
-	if damage_timer >= damage_interval:
-		attack_neighbor()
-		damage_timer = 0.0
+	# 25-11-3: Make corruption spread across the map randomly using attack_neighbor()
+	if tile_owner == "corruption":
+		damage_timer += delta
+		if damage_timer >= damage_interval:
+			attack_neighbor()
+			damage_timer = 0.0
+	
+	# 25-11-3: Make player territory spread to neutral tiles
+	if tile_owner == "player":
+		decay_timer += delta
+		if decay_timer >= decay_interval:
+			attack_neighbor()
+			decay_timer = 0.0
 
 func set_neighbors():
 	neighbor_tiles = get_parent().get_neighbors(tile_position.x, tile_position.y)
 
 # 25-10-29: Handles taking damage accordingly
 func take_damage(damage: int, attacker: String):
-	if health >= 0 and captured == false:
+	if health >= 0 and tile_owner != attacker: # and captured == false:
 		health -= damage
 		label.text = str(health)
 		# square.color = Color.from_hsv(0 + (health * 0.1), 1, 1)
 	
-	if health <= max_health and captured == true:
-		health -= damage
-		label.text = str(health)
+	#if health <= max_health: # and captured == true:
+		#health -= damage
+		#label.text = str(health)
 		# square.color = Color.from_hsv(0 + (health * 0.1), 1, 1)
 	
-	if health <= 0 and captured == false:
+	if health <= 0: # and captured == false:
 		capture(attacker)
-	elif health > 0 and captured == true:
-		health = 1
-		decapture("neutral")
+	#elif health > 0 and captured == true:
+		#health = 1
+		#decapture("neutral")
 
 # 25-10-29: Handles a tile being captured
 # 25-10-29: Tiles are captured by an attacker doing damage to them
 func capture(attacker: String):
 	captured = true
-	label.visible = false
+	# label.visible = false
+	health = max_health
+	label.text = str(health)
 	
 	match attacker:
 		"player":
@@ -65,9 +76,6 @@ func capture(attacker: String):
 			if tile_owner == "player":
 				get_parent().tiles_captured -=1
 			tile_owner = "corruption"
-		"red":
-			square.color = Color.FIREBRICK
-			tile_owner = "red"
 	
 
 # 25-10-29: Handles a tile becoming uncaptured
@@ -96,10 +104,14 @@ func total_neighbors_touched() -> int:
 			total += 1
 	return total
 
-# 25-10-29: Attack a neighbor tile
+# 25-10-29: Attack a neighbor tile that is not an ally
 func attack_neighbor():
-	if captured == true:
-		neighbor_tiles[randi_range(0, neighbor_tiles.size() - 1)].take_damage(1, tile_owner)
+	var tile = neighbor_tiles[randi_range(0, neighbor_tiles.size() - 1)]
+	if tile.tile_owner != tile_owner and tile.tile_owner != "player" and tile_owner == "corruption":
+		tile.take_damage(1, tile_owner)
+		
+	if tile_owner == "player":
+		tile.take_damage(1, tile_owner)
 
 	## 25-10-29: Deals with tiles that have not been captured
 	#damage_timer += delta

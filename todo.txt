@@ -1,0 +1,16 @@
+# To do
+
+**25-11-3**
+- [ x ] Create a corruption tile that can take over the map and make the player loose
+
+# Need to do
+- Camaera move
+- Game Design Document
+- Menu
+- Lose state?
+
+# Ideas
+- Make each tile the player clicks on collect resources
+- Randomly generated island with resources to collect
+- Buildings to collect resources and further capture tiles
+- Units to go out and capture tiles

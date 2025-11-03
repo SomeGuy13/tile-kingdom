@@ -25,7 +25,7 @@ func create_tiles() -> void:
 			tile.position = Vector2(x * tile_size.x + 10 + grid_offset.x,
 			y * tile_size.y + 10 + grid_offset.y)
 			tile.tile_position = Vector2(x, y)
-			var health = 10 # randi_range(3, 10)
+			var health = randi_range(3, 10)
 			tile.max_health = health
 			tile.health = health
 			add_child(tile)
@@ -37,6 +37,17 @@ func create_tiles() -> void:
 			tiles[x][y].set_neighbors()
 	
 	tiles_to_capture = size.x * size.y
+	
+	spawn_corrupted_tiles(3)
+
+func spawn_corrupted_tiles(amount: int):
+	for tile in amount:
+		# 25-11-3: Spawn a corrupted tile in the world
+		var random_tile_x = randi_range(0, tiles.size() - 1)
+		var random_tile_y = randi_range(0, tiles[random_tile_x].size() - 1)
+		tiles[random_tile_x][random_tile_y].capture("corruption")
+		# tiles[random_tile_x][random_tile_y].tile_owner = "corruption"
+		# tiles[random_tile_x][random_tile_y].square.color = Color.WEB_PURPLE
 
 # 25-10-29: Gets the neighbors to a specific cordinate in the world grid
 func get_neighbors(x: int, y: int) -> Array:
