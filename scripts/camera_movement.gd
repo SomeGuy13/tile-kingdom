@@ -6,6 +6,7 @@ extends Camera2D
 var target_position: Vector2
 
 func _process(delta: float) -> void:
+	# 25-11-12: Read input from keyboard and move the camera with smoothing
 	var input_vector = Vector2.ZERO
 	input_vector.x = Input.get_action_strength(("right")) - Input.get_action_strength("left")
 	input_vector.y = Input.get_action_strength(("down")) - Input.get_action_strength(("up"))

@@ -7,7 +7,7 @@
 - [ x ] Create camera movement around the map
 
 # Need to do
-- Camaera move
+- ~~Camaera move~~
 - Game Design Document
 - Menu
 - Lose state?
