@@ -17,11 +17,11 @@ pan_speed = 500.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="CanvasGroup" type="CanvasGroup" parent="CanvasLayer"]
+[node name="Menu" type="CanvasGroup" parent="CanvasLayer"]
 
-[node name="WinScreen" type="Node" parent="CanvasLayer/CanvasGroup"]
+[node name="WinScreen" type="Node" parent="CanvasLayer/Menu"]
 
-[node name="WinText" type="Label" parent="CanvasLayer/CanvasGroup/WinScreen"]
+[node name="WinText" type="Label" parent="CanvasLayer/Menu/WinScreen"]
 visible = false
 offset_left = 522.0
 offset_top = 297.0
@@ -31,12 +31,18 @@ text = "YOU WON!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Node" type="Node" parent="CanvasLayer/CanvasGroup"]
+[node name="LooseScreen" type="Node" parent="CanvasLayer/Menu"]
 
-[node name="LooseText" type="Label" parent="CanvasLayer/CanvasGroup/Node"]
+[node name="LooseText" type="Label" parent="CanvasLayer/Menu/LooseScreen"]
 visible = false
 offset_left = 548.0
 offset_top = 285.0
 offset_right = 643.0
 offset_bottom = 308.0
 text = "YOU LOOSE!"
+
+[node name="Overlay" type="CanvasGroup" parent="CanvasLayer"]
+
+[node name="ResourcesText" type="Label" parent="CanvasLayer/Overlay"]
+offset_right = 40.0
+offset_bottom = 23.0

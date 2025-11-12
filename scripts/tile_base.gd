@@ -32,11 +32,11 @@ func _process(delta: float) -> void:
 			damage_timer = 0.0
 	
 	# 25-11-3: Make player territory spread to neutral tiles
-	if tile_owner == "player":
-		decay_timer += delta
-		if decay_timer >= decay_interval:
-			attack_neighbor()
-			decay_timer = 0.0
+	#if tile_owner == "player":
+		#decay_timer += delta
+		#if decay_timer >= decay_interval:
+			#attack_neighbor()
+			#decay_timer = 0.0
 
 func set_neighbors():
 	neighbor_tiles = get_parent().get_neighbors(tile_position.x, tile_position.y)
