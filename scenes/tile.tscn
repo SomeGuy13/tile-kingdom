@@ -19,6 +19,7 @@ shape = SubResource("RectangleShape2D_ywnoi")
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
 [node name="HealthLabel" type="Label" parent="."]
+visible = false
 offset_left = -10.0
 offset_top = -12.0
 offset_right = 10.0

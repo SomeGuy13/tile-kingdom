@@ -10,4 +10,4 @@ func _input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		# Decrease health when clicked, capture the tile if health is low
 		if event.is_pressed() and event.button_index == 1:
-			main_manager.take_damage(10, "player")
+			main_manager.take_damage(1, "player")

@@ -58,6 +58,8 @@ func take_damage(damage: int, attacker: String):
 	#elif health > 0 and captured == true:
 		#health = 1
 		#decapture("neutral")
+	
+	get_parent().collect_resource(1, attacker)
 
 # 25-10-29: Handles a tile being captured
 # 25-10-29: Tiles are captured by an attacker doing damage to them
