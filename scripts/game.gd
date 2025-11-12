@@ -1,7 +1,7 @@
 extends Node2D
 
-@onready var win_text = $CanvasGroup/WinScreen/WinText
-@onready var loose_text = $CanvasGroup/Node/LooseText
+@onready var win_text = $CanvasLayer/CanvasGroup/WinScreen/WinText
+@onready var loose_text = $CanvasLayer/CanvasGroup/Node/LooseText
 @onready var world = $world
 
 var has_won = false

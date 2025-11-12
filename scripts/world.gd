@@ -25,7 +25,7 @@ func create_tiles() -> void:
 			tile.position = Vector2(x * tile_size.x + 10 + grid_offset.x,
 			y * tile_size.y + 10 + grid_offset.y)
 			tile.tile_position = Vector2(x, y)
-			var health = randi_range(3, 10)
+			var health = randi_range(10, 100)
 			tile.max_health = health
 			tile.health = health
 			add_child(tile)

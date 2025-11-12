@@ -1,19 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://u5a56pre8leh"]
+[gd_scene load_steps=4 format=3 uid="uid://u5a56pre8leh"]
 
 [ext_resource type="Script" uid="uid://blev5licc0hpr" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://chtfcowufaejo" path="res://scenes/world.tscn" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://bhuijb1pyl3tq" path="res://scripts/camera_movement.gd" id="3_lnu2h"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_uwrxv")
 
 [node name="world" parent="." instance=ExtResource("2_yqjtg")]
+size = Vector2(50, 50)
 tile_size = Vector2(20, 20)
 
-[node name="CanvasGroup" type="CanvasGroup" parent="."]
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_lnu2h")
+pan_speed = 500.0
 
-[node name="WinScreen" type="Node" parent="CanvasGroup"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="WinText" type="Label" parent="CanvasGroup/WinScreen"]
+[node name="CanvasGroup" type="CanvasGroup" parent="CanvasLayer"]
+
+[node name="WinScreen" type="Node" parent="CanvasLayer/CanvasGroup"]
+
+[node name="WinText" type="Label" parent="CanvasLayer/CanvasGroup/WinScreen"]
 visible = false
 offset_left = 522.0
 offset_top = 297.0
@@ -23,9 +31,9 @@ text = "YOU WON!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Node" type="Node" parent="CanvasGroup"]
+[node name="Node" type="Node" parent="CanvasLayer/CanvasGroup"]
 
-[node name="LooseText" type="Label" parent="CanvasGroup/Node"]
+[node name="LooseText" type="Label" parent="CanvasLayer/CanvasGroup/Node"]
 visible = false
 offset_left = 548.0
 offset_top = 285.0

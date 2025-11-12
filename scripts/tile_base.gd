@@ -17,10 +17,11 @@ var tile_position: Vector2
 var damage_timer = 0.0
 var damage_interval = 0.25
 var decay_timer = 0.0
-var decay_interval = 0.25
+var decay_interval = 0.5
 
 func _ready() -> void:
 	label.text = str(health)
+	label.visible = false
 
 func _process(delta: float) -> void:
 	# 25-11-3: Make corruption spread across the map randomly using attack_neighbor()
