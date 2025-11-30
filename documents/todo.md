@@ -3,8 +3,11 @@
 **25-11-3**
 - [ x ] Create a corruption tile that can take over the map and make the player loose
 
+**25-11-12**
+- [ x ] Create camera movement around the map
+
 # Need to do
-- Camaera move
+- ~~Camaera move~~
 - Game Design Document
 - Menu
 - Lose state?

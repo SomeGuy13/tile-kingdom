@@ -17,10 +17,11 @@ var tile_position: Vector2
 var damage_timer = 0.0
 var damage_interval = 0.25
 var decay_timer = 0.0
-var decay_interval = 0.25
+var decay_interval = 0.5
 
 func _ready() -> void:
 	label.text = str(health)
+	label.visible = false
 
 func _process(delta: float) -> void:
 	# 25-11-3: Make corruption spread across the map randomly using attack_neighbor()
@@ -31,11 +32,11 @@ func _process(delta: float) -> void:
 			damage_timer = 0.0
 	
 	# 25-11-3: Make player territory spread to neutral tiles
-	if tile_owner == "player":
-		decay_timer += delta
-		if decay_timer >= decay_interval:
-			attack_neighbor()
-			decay_timer = 0.0
+	#if tile_owner == "player":
+		#decay_timer += delta
+		#if decay_timer >= decay_interval:
+			#attack_neighbor()
+			#decay_timer = 0.0
 
 func set_neighbors():
 	neighbor_tiles = get_parent().get_neighbors(tile_position.x, tile_position.y)
@@ -57,6 +58,8 @@ func take_damage(damage: int, attacker: String):
 	#elif health > 0 and captured == true:
 		#health = 1
 		#decapture("neutral")
+	
+	get_parent().collect_resource(1, attacker)
 
 # 25-10-29: Handles a tile being captured
 # 25-10-29: Tiles are captured by an attacker doing damage to them

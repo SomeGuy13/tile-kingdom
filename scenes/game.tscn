@@ -1,19 +1,33 @@
-[gd_scene load_steps=3 format=3 uid="uid://u5a56pre8leh"]
+[gd_scene load_steps=7 format=3 uid="uid://u5a56pre8leh"]
 
 [ext_resource type="Script" uid="uid://blev5licc0hpr" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://chtfcowufaejo" path="res://scenes/world.tscn" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://dj30b23u25qe7" path="res://scripts/player_manager.gd" id="3_lbhrr"]
+[ext_resource type="Script" uid="uid://bhuijb1pyl3tq" path="res://scripts/camera_movement.gd" id="3_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://b0vdwddlbcm2a" path="res://scenes/shop_item.tscn" id="6_p57ef"]
+[ext_resource type="Script" uid="uid://cn8pjkac7nc6e" path="res://scripts/shop_menu.gd" id="6_u5sy4"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_uwrxv")
 
 [node name="world" parent="." instance=ExtResource("2_yqjtg")]
+size = Vector2(50, 50)
 tile_size = Vector2(20, 20)
 
-[node name="CanvasGroup" type="CanvasGroup" parent="."]
+[node name="PlayerManager" type="Node2D" parent="."]
+script = ExtResource("3_lbhrr")
 
-[node name="WinScreen" type="Node" parent="CanvasGroup"]
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_lnu2h")
+pan_speed = 500.0
 
-[node name="WinText" type="Label" parent="CanvasGroup/WinScreen"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Menu" type="CanvasGroup" parent="CanvasLayer"]
+
+[node name="WinScreen" type="Node" parent="CanvasLayer/Menu"]
+
+[node name="WinText" type="Label" parent="CanvasLayer/Menu/WinScreen"]
 visible = false
 offset_left = 522.0
 offset_top = 297.0
@@ -23,12 +37,37 @@ text = "YOU WON!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Node" type="Node" parent="CanvasGroup"]
+[node name="LooseScreen" type="Node" parent="CanvasLayer/Menu"]
 
-[node name="LooseText" type="Label" parent="CanvasGroup/Node"]
+[node name="LooseText" type="Label" parent="CanvasLayer/Menu/LooseScreen"]
 visible = false
 offset_left = 548.0
 offset_top = 285.0
 offset_right = 643.0
 offset_bottom = 308.0
 text = "YOU LOOSE!"
+
+[node name="Overlay" type="CanvasGroup" parent="CanvasLayer"]
+
+[node name="ResourceText" type="Label" parent="CanvasLayer/Overlay"]
+offset_left = 47.0
+offset_top = 37.0
+offset_right = 103.0
+offset_bottom = 60.0
+text = "Resources"
+
+[node name="ShopButton" type="Button" parent="CanvasLayer/Overlay"]
+offset_left = 44.0
+offset_top = 65.0
+offset_right = 127.0
+offset_bottom = 96.0
+text = "Shop"
+
+[node name="ShopMenu" type="CanvasGroup" parent="CanvasLayer"]
+script = ExtResource("6_u5sy4")
+
+[node name="Item" parent="CanvasLayer/ShopMenu" instance=ExtResource("6_p57ef")]
+visible = false
+
+[connection signal="pressed" from="CanvasLayer/Overlay/ShopButton" to="CanvasLayer/Overlay/ShopButton" method="_on_pressed"]
+[connection signal="pressed" from="CanvasLayer/Overlay/ShopButton" to="CanvasLayer/ShopMenu" method="_on_shop_button_pressed"]
