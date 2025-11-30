@@ -16,6 +16,7 @@ script = ExtResource("1_3dk36")
 shape = SubResource("RectangleShape2D_ywnoi")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.19486657, 0.74, 0.11099999, 1)
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
 [node name="HealthLabel" type="Label" parent="."]
