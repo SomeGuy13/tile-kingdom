@@ -76,8 +76,7 @@ func capture(attacker: String):
 			tile_owner = "player"
 		"corruption":
 			square.color = Color.WEB_PURPLE
-			if tile_owner == "player":
-				get_parent().tiles_captured -=1
+			get_parent().tiles_corrupted += 1
 			tile_owner = "corruption"
 	
 

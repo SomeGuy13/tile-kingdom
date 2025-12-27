@@ -17,3 +17,8 @@ func _process(delta: float) -> void:
 	
 	if world.tiles_captured == world.tiles_to_capture:
 		has_won = true
+	
+	if world.tiles_corrupted >= (world.size.x * world.size.y):
+		has_lost = true
+	
+	print(world.tiles_corrupted)
