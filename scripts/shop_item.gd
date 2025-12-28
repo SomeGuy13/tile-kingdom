@@ -29,4 +29,3 @@ func _on_purchase_button_pressed() -> void:
 	if player_manager.resources >= item_price:
 		player_manager.spend_resource(item_price)
 		player_manager.add_item_to_inventory(item_name)
-		print(player_manager.items)

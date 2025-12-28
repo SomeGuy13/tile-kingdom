@@ -13,8 +13,10 @@ var tile_scene = preload("res://scenes/tile.tscn")
 
 # 2D Array to hold tiles
 var tiles: Array = []
-var tiles_captured = 0;
 var tiles_to_capture = size.x * size.y
+
+var tiles_captured = 0;
+var tiles_corrupted = 0;
 
 func _ready() -> void:
 	create_tiles()

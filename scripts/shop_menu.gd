@@ -11,14 +11,12 @@ func open_shop():
 	shop_open = true
 	for child in get_children():
 		child.visible = true
-	print("shop open")
 
 # 25-11-20: A function to manage closing the shop
 func close_shop():
 	shop_open = false
 	for child in get_children():
 		child.visible = false
-	print("shop closed")
 
 # 25-11-20: A function to toggle opening and closing the shop
 func _on_shop_button_pressed() -> void:
