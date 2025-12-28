@@ -15,7 +15,7 @@ var neighbors_captured = 0
 var tile_position: Vector2
 
 var damage_timer = 0.0
-var damage_interval = 0.25
+var damage_interval = 0.01
 var decay_timer = 0.0
 var decay_interval = 0.5
 
@@ -73,10 +73,14 @@ func capture(attacker: String):
 		"player":
 			get_parent().tiles_captured += 1
 			square.color = Color.NAVY_BLUE
+			if tile_owner == "corruption":
+				get_parent().tiles_corrupted -= 1
 			tile_owner = "player"
 		"corruption":
 			square.color = Color.WEB_PURPLE
 			get_parent().tiles_corrupted += 1
+			if tile_owner == "player":
+				get_parent().tiles_captured += 1
 			tile_owner = "corruption"
 	
 
@@ -109,7 +113,7 @@ func total_neighbors_touched() -> int:
 # 25-10-29: Attack a neighbor tile that is not an ally
 func attack_neighbor():
 	var tile = neighbor_tiles[randi_range(0, neighbor_tiles.size() - 1)]
-	if tile.tile_owner != tile_owner and tile.tile_owner != "player" and tile_owner == "corruption":
+	if tile.tile_owner != tile_owner:
 		tile.take_damage(1, tile_owner)
 		
 	if tile_owner == "player":
