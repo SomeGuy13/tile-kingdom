@@ -19,7 +19,8 @@ var tiles_captured = 0;
 var tiles_corrupted = 0;
 
 func _ready() -> void:
-	create_tiles()
+	print("Tiles shall be created")
+	# create_tiles()
 
 # 25-10-29: Creates the tiles and places them in the world
 func create_tiles() -> void:
